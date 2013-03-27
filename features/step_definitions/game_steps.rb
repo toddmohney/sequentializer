@@ -4,7 +4,7 @@ end
 
 When /^I start a new game$/ do
   game = Sequentializer::Game.new(output)
-  game.start
+  game.start("1234")
 end
 
 Then /^I should see the message "(.*?)"$/ do |message|
