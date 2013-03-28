@@ -10,16 +10,31 @@ module Sequentializer
     def start(solution)
       @solution = solution.split("")
       @output.puts("Get ready to sequentialize!")
-      @output.puts("Enter guess: ")
+      prompt_for_guess
     end
 
     def guess(guess)
       guess = guess.split("")
       response = evaluate(guess, @solution)
       @output.puts(response)
+
+      if check_for_win(response)
+        puts "You are wicked smart."
+      else
+        prompt_for_guess
+      end
     end
 
-    private 
+    private
+
+    def prompt_for_guess
+      @output.puts("Enter guess: ")
+      guess(gets.chomp)
+    end
+
+    def check_for_win(pattern)
+      pattern == "++++"
+    end
 
     def evaluate(guess, solution)
       exact_matches = []

@@ -42,7 +42,7 @@ module Sequentializer
             game.guess("9991")
           end
         end
-        
+
         context "in the correct location" do
           it "outputs a pattern of +" do
             output.should_receive(:puts).with("+")
@@ -58,7 +58,7 @@ module Sequentializer
             game.guess("9921")
           end
         end
-        
+
         context "both in the correct location" do
           it "outputs a pattern of ++" do
             output.should_receive(:puts).with("++")
@@ -88,14 +88,14 @@ module Sequentializer
             game.guess("2193")
           end
         end
-        
+
         context "with 2 in the correct locations" do
           it "outputs a pattern of ++-" do
             output.should_receive(:puts).with("++-")
             game.guess("1293")
           end
         end
-        
+
         context "with 1 in the correct location" do
           it "outputs a pattern of +--" do
             output.should_receive(:puts).with("+--")
@@ -118,19 +118,34 @@ module Sequentializer
             game.guess("4321")
           end
         end
-        
+
         context "with 2 in the correct locations" do
           it "outputs a pattern of ++--" do
             output.should_receive(:puts).with("++--")
             game.guess("1324")
           end
         end
-        
+
         context "with 1 in the correct location" do
           it "outputs a pattern of +--" do
             output.should_receive(:puts).with("+---")
             game.guess("1423")
           end
+        end
+      end
+
+      context "when there are less than 3 exact matches" do
+        it "prompts the user for another guess" do
+          game.should_receive(:prompt_for_guess)
+          game.guess("1235")
+        end
+      end
+
+      context "when there are 4 exact matches" do
+        it "shows the win message" do
+          game.should_receive(:check_for_win)
+          game.output.should_receive(:puts).with("You are wicked smart")
+          game.guess("1234")
         end
       end
     end
