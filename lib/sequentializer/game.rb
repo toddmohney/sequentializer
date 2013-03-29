@@ -10,7 +10,7 @@ module Sequentializer
     def start(solution)
       @solution = solution.split("")
       @output.puts("Get ready to sequentialize!")
-      prompt_for_guess
+      @output.puts("Enter guess: ")
     end
 
     def guess(guess)
@@ -20,17 +20,10 @@ module Sequentializer
 
       if check_for_win(response)
         puts "You are wicked smart."
-      else
-        prompt_for_guess
       end
     end
 
     private
-
-    def prompt_for_guess
-      @output.puts("Enter guess: ")
-      guess(gets.chomp)
-    end
 
     def check_for_win(pattern)
       pattern == "++++"

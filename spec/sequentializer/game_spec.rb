@@ -12,11 +12,6 @@ module Sequentializer
         output.should_receive(:puts).with("Get ready to sequentialize!")
         game.start(solution)
       end
-
-      it "prompts the user for input" do
-        output.should_receive(:puts).with("Enter guess: ")
-        game.start(solution)
-      end
     end
 
     describe "#guess" do
@@ -134,20 +129,13 @@ module Sequentializer
         end
       end
 
-      context "when there are less than 3 exact matches" do
-        it "prompts the user for another guess" do
-          game.should_receive(:prompt_for_guess)
-          game.guess("1235")
-        end
-      end
-
-      context "when there are 4 exact matches" do
-        it "shows the win message" do
-          game.should_receive(:check_for_win)
-          game.output.should_receive(:puts).with("You are wicked smart")
-          game.guess("1234")
-        end
-      end
+      # context "when there are 4 exact matches" do
+        # it "shows the win message" do
+          # game.should_receive(:check_for_win)
+          # output.should_receive(:puts).with("You are wicked smart")
+          # game.guess("1234")
+        # end
+      # end
     end
 
   end

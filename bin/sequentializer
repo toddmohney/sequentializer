@@ -4,3 +4,7 @@ require 'sequentializer'
 game = Sequentializer::Game.new(STDOUT)
 game.start("2984")
 
+while guess = gets.chomp()
+  game.guess(guess)
+end
+
