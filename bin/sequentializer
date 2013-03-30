@@ -2,7 +2,8 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__) 
 require 'sequentializer' 
 game = Sequentializer::Game.new(STDOUT)
-game.start("2984")
+solution = 4.times.map { Random.new().rand(0..9) }.join("")
+game.start(solution)
 
 while guess = gets.chomp()
   game.guess(guess)
