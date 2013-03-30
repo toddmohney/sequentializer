@@ -18,124 +18,36 @@ module Sequentializer
       let(:output) { double(:output).as_null_object }
       let(:game) { Game.new(output) }
       let(:solution) { "1234" }
+      let(:marker) { double(:marker).as_null_object }
 
       before do
         game.start(solution)
       end
 
-      context "with no matches" do
-        it "returns an empty mark pattern" do
-          output.should_receive(:puts).with("")
-          game.guess("9999")
+      context "when the guess is incorrect" do
+        let(:guess) { "9285" }
+
+        it "marks the correctness of the users guess" do
+          Marker.should_receive(:new).with(solution.split("")).and_return(marker)
+          marker.should_receive(:evaluate).with(guess)
+          game.guess(guess)
         end
       end
 
-      context "with 1 match" do
-        context "in the incorrect location" do
-          it "outputs a pattern of -" do
-            output.should_receive(:puts).with("-")
-            game.guess("9991")
-          end
-        end
-
-        context "in the correct location" do
-          it "outputs a pattern of +" do
-            output.should_receive(:puts).with("+")
-            game.guess("1999")
-          end
+      context "when there are 4 exact matches" do
+        it "shows the win message" do
+          output.should_receive(:puts).with("++++")
+          output.should_receive(:puts).with("You are wicked smart")
+          game.guess("1234")
         end
       end
 
-      context "with 2 matches" do
-        context "both in the incorrect location" do
-          it "outputs a pattern of --" do
-            output.should_receive(:puts).with("--")
-            game.guess("9921")
-          end
-        end
-
-        context "both in the correct location" do
-          it "outputs a pattern of ++" do
-            output.should_receive(:puts).with("++")
-            game.guess("1299")
-          end
-        end
-
-        context "one in the correct postion and one in the incorrect position" do
-          it "outputs a pattern of +-" do
-            output.should_receive(:puts).with("+-")
-            game.guess("1992")
-          end
+      context "when the user inputs 'show'" do 
+        it "shows the solution" do
+          output.should_receive(:puts).with(solution);
+          game.guess("show")
         end
       end
-
-      context "with 3 matches" do
-        context "with all in the correct locations" do
-          it "outputs a pattern of +++" do
-            output.should_receive(:puts).with("+++")
-            game.guess("1239")
-          end
-        end
-
-        context "with all in the incorrect locations" do
-          it "outputs a pattern of ---" do
-            output.should_receive(:puts).with("---")
-            game.guess("2193")
-          end
-        end
-
-        context "with 2 in the correct locations" do
-          it "outputs a pattern of ++-" do
-            output.should_receive(:puts).with("++-")
-            game.guess("1293")
-          end
-        end
-
-        context "with 1 in the correct location" do
-          it "outputs a pattern of +--" do
-            output.should_receive(:puts).with("+--")
-            game.guess("1329")
-          end
-        end
-      end
-
-      context "with 4 matches" do
-        context "with all in the correct locations" do
-          it "outputs a pattern of ++++" do
-            output.should_receive(:puts).with("++++")
-            game.guess("1234")
-          end
-        end
-
-        context "with all in the incorrect locations" do
-          it "outputs a pattern of ----" do
-            output.should_receive(:puts).with("----")
-            game.guess("4321")
-          end
-        end
-
-        context "with 2 in the correct locations" do
-          it "outputs a pattern of ++--" do
-            output.should_receive(:puts).with("++--")
-            game.guess("1324")
-          end
-        end
-
-        context "with 1 in the correct location" do
-          it "outputs a pattern of +--" do
-            output.should_receive(:puts).with("+---")
-            game.guess("1423")
-          end
-        end
-      end
-
-      # context "when there are 4 exact matches" do
-        # it "shows the win message" do
-          # game.should_receive(:check_for_win)
-          # output.should_receive(:puts).with("You are wicked smart")
-          # game.guess("1234")
-        # end
-      # end
     end
 
   end

@@ -14,42 +14,26 @@ module Sequentializer
     end
 
     def guess(guess)
-      guess = guess.split("")
-      response = evaluate(guess, @solution)
-      @output.puts(response)
+      @guess = guess
 
-      if check_for_win(response)
-        puts "You are wicked smart."
+      if @guess == "show"
+        @output.puts(@solution.join(""))
+        return
       end
+
+      marker = Marker.new(@solution)
+      @output.puts(marker.evaluate(@guess))
+
+      check_for_win
     end
 
     private
 
-    def check_for_win(pattern)
-      pattern == "++++"
-    end
-
-    def evaluate(guess, solution)
-      exact_matches = []
-      value_matches = []
-
-      guess.each_with_index do |guess_val, guess_index|
-        if is_exact_match?(guess_val, guess_index)
-          exact_matches << "+"
-        elsif is_value_match?(guess_val)
-          value_matches << "-"
-        end
+    def check_for_win
+      if @guess == @solution.join("")
+        @output.puts("You are wicked smart")
       end
-
-      exact_matches.join << value_matches.join
     end
 
-    def is_value_match?(guess_val)
-      @solution.include?(guess_val)
-    end
-
-    def is_exact_match?(guess_value, guess_index)
-      @solution[guess_index] == guess_value
-    end
   end
 end
