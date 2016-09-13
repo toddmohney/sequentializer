@@ -29,4 +29,10 @@ module Sequentializer
     end
 
   end
+
+  class Changes
+    def making_changes
+      "I made a change!"
+    end
+  end
 end
