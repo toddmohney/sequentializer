@@ -6,13 +6,13 @@ currentIteration=0
 echo "Total iterations: $totalIterations"
 
 while [ "$currentIteration" -lt $totalIterations ]; do
-  newBranchName="test_branch_$i"
+  newBranchName="test_branch_$currentIteration"
 
   echo "checking out branch: $newBranchName"
   git checkout -b $newBranchName
 
   echo "create some test file"
-  touch "testFile_$i"
+  touch "testFile_$currentIteration"
 
   #-----------------------------------
   echo "make a change"
