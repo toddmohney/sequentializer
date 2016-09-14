@@ -1,43 +1,53 @@
 #!/bin/sh
+set -e
 
-clientID=c79f52fb8ecd14f65a3e
-clientSecret=f62012f87a0308d350b12808ad0c651eb02f620d
-newBranchName=$1
+totalIterations=$1
+currentIteration=0
 
-echo "checking out branch: $newBranchName"
-git checkout -b $newBranchName
+echo "Total iterations: $totalIterations"
 
-echo "create some test file"
-touch testFile
+while [ "$currentIteration" -lt "$totalIterations" ]; do
+  newBranchName="test_branch_$currentIteration_$(date +'%N')"
 
-#-----------------------------------
-echo "make a change"
-echo "I'm a change!" > testFile
+  echo "checking out branch: $newBranchName"
+  git checkout -b $newBranchName
 
-echo "commit that change"
-git add .
-git commit -m "I made a change"
+  echo "create some test file"
+  touch "testFile_$currentIteration"
 
-#-----------------------------------
-echo "make another change"
-echo "I'm another change!" > testFile
+  #-----------------------------------
+  echo "make a change"
+  echo "I'm a change!" > testFile
 
-echo "commit that change"
-git add .
-git commit -m "I made 2nd change"
+  echo "commit that change"
+  git add .
+  git commit -m "I made a change"
 
-#-----------------------------------
-echo "make a third change"
-echo "I'm third change!" > testFile
+  #-----------------------------------
+  echo "make another change"
+  echo "I'm another change!" > testFile
 
-echo "commit that change"
-git add .
-git commit -m "I made 3rd change"
+  echo "commit that change"
+  git add .
+  git commit -m "I made 2nd change"
 
-#-----------------------------------
-echo "push those changes!"
-git push
+  #-----------------------------------
+  echo "make a third change"
+  echo "I'm third change!" > testFile
 
-#-----------------------------------
-echo "create a pull request"
-hub pull-request
+  echo "commit that change"
+  git add .
+  git commit -m "I made 3rd change"
+
+  #-----------------------------------
+  echo "push those changes!"
+  git push
+
+  #-----------------------------------
+  echo "create a pull request"
+  hub pull-request -m "Pull request $currentIteration"
+
+  git checkout master
+
+  currentIteration=$((currentIteration+1))
+done
