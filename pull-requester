@@ -3,7 +3,7 @@
 clientID=c79f52fb8ecd14f65a3e
 clientSecret=f62012f87a0308d350b12808ad0c651eb02f620d
 apiEndpoint="https://api.github.com/repos/toddmohney/sequentializer/pulls"
-newBranchName=$0
+newBranchName=$1
 
 echo "checking out branch: $newBranchName"
 git checkout -b $newBranchName
@@ -43,7 +43,7 @@ git push
 echo "create a pull request"
 curl -i -vvv \
   -H "Content-Type: application/json" \
-  -H "Authorization: token 82c2fff1a713d6e13322591b9a2be5154bc01fce" \
+  -H "Authorization: token a5f74288ff0fcc37ce4febae2c7e7094918a8b7a" \
   -X POST -d '{ "title": "Amazing new feature", "body": "Please pull this in!", "head": "sequentializer:$newBranchName", "base": "master" }' \
   $apiEndpoint
 
